@@ -6,6 +6,9 @@ from .models import Room
 class RoomSerializer(serializers.ModelSerializer):
 
     user = UserSerializer()
+    # SerializerMethodField ↓
+    # https://www.django-rest-framework.org/api-guide/fields/#serializermethodfield
+    is_fav = serializers.SerializerMethodField()
 
     class Meta:
         model = Room
@@ -24,3 +27,11 @@ class RoomSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Not enough time between changes")
         return data
+
+    def get_is_fav(self, obj):  # self : serializer , obj : Room
+        request = self.context.get("request")
+        if request:
+            user = request.user
+            if user.is_authenticated:
+                return obj in user.favs.all()  # True 를 return
+        return False

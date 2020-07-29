@@ -31,7 +31,6 @@ class MeView(APIView):
         return Response(stauts=status.HTTP_403_FORBIDDEN)'''
 
     def get(self, request):
-        print(dir(request.user))
         return Response(data=UserSerializer(request.user).data)
 
     def put(self, request):
@@ -88,8 +87,9 @@ def login(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
     user = authenticate(username=username, password=password)
     if user is not None:
+        # token 만들기
         encoded_jwt = jwt.encode(
             {'pk': user.pk}, settings.SECRET_KEY, algorithm='HS256')
-        return Response(data={"token": encoded_jwt})
+        return Response(data={"token": encoded_jwt})  # Authentication Header
     else:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
