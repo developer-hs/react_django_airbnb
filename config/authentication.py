@@ -7,8 +7,11 @@ from users.models import User
 
 # Custom Authentication
 # https://www.django-rest-framework.org/api-guide/authentication/#example
-
-
+# ↓ AWS 의 Elastic Beanstalk 등을 이용해서 서버를 deploy 한다면
+# WSGIPassAuthorization 를 On 해줘야한다 ↓
+# On 설정을 하지않을경우 AWS 는 기본적으로 Authorization 의 header 를 없앤다
+# https://www.django-rest-framework.org/api-guide/authentication/#apache-mod_wsgi-specific-configuration
+# https://docs.aws.amazon.com/ko_kr/elasticbeanstalk/latest/dg/create-deploy-python-container.html
 class JWTAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
         try:

@@ -5,7 +5,7 @@ from .models import Room
 
 class RoomSerializer(serializers.ModelSerializer):
 
-    user = UserSerializer(read_only=True)
+    user = UserSerializer()
     # SerializerMethodField ↓
     # https://www.django-rest-framework.org/api-guide/fields/#serializermethodfield
     is_fav = serializers.SerializerMethodField()
@@ -35,8 +35,3 @@ class RoomSerializer(serializers.ModelSerializer):
             if user.is_authenticated:
                 return obj in user.favs.all()  # True 를 return
         return False
-
-    def create(self, validated_data):
-        request = self.context.get("request")
-        room = Room.objects.create(**validated_data, user=request.user)
-        return room

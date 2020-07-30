@@ -144,3 +144,14 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ]
 }
+
+# https://www.django-rest-framework.org/api-guide/renderers/#setting-the-renderers
+if not DEBUG:
+    REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = [
+        'rest_framework.renderers.JSONRenderer', ]
+# ↑ DRF 가 지원하는 개발자 페이지를 사용하지않음(JSON 데이터만 남게됨)
+# ----- 읽으면 도움될만한 것들 ----
+# https://www.django-rest-framework.org/api-guide/throttling/
+# ↑ 공공 API 를 만들경우
+# https://www.django-rest-framework.org/api-guide/caching/
+# https://www.django-rest-framework.org/api-guide/versioning/
